@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright
 from playwright_stealth import Stealth
+import pandas as pd
 import re
 import time
 import random
@@ -85,7 +86,16 @@ def run():
 
 
 
+    data = {
+        'name': NAME,
+        'phone_number': PHONE_NUMBER,
+        'address': ADDRESS,
+        'website': WEBSITE,
+        'rating': RATING
+    }
 
+    df = pd.DataFrame(data=data)
+    df.to_csv('retrieved_data.csv')
 
 
 if __name__ == '__main__':
