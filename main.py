@@ -43,47 +43,60 @@ def run():
 
         i = 0
         while True:
-            print(Fore.RED + "->" + Fore.GREEN + f"Clicking gym card {i + 1}...")
-            gym_card = page.locator('a.hfpxzc').nth(i)
-            gym_card.hover()
-            gym_card.click()
-            #wait for the gym_info to load
-            page.wait_for_selector('div.m6QErb.DxyBCb.kA9KIf')
-            page.wait_for_selector('img[decoding="async"]')
-            time.sleep(4)
-
-            #Retrieve the stuff
-            name = page.locator('h1.DUwDvf.lfPIob').first
-            NAME.append(name.inner_text())
-
-            phone_number_section = page.locator('button[data-item-id^="phone:"] div.rogA2c ').filter(
-                has=page.locator('div.HMy2Jf')
-            ).filter(
-                has=page.locator('div.gSkmPd.fontBodySmall.CuiGbf.DshQNd')
-            )
-            phone_number = phone_number_section.locator('div.Io6YTe.fontBodyMedium.kR99db.fdkmkc')
-            PHONE_NUMBER.append(phone_number.inner_text())
-            
-
-            address_element = page.locator('div.Io6YTe.fontBodyMedium.kR99db.fdkmkc ').first
-            ADDRESS.append(address_element.inner_text())
-
             try:
-                website_element = page.locator('a[aria-label^="Website:"] div.AeaXub div.rogA2c.ITvuef div.Io6YTe.fontBodyMedium.kR99db.fdkmkc ')
-                WEBSITE.append(website_element.inner_text())
+                print(Fore.RED + "->" + Fore.GREEN + f"Clicking gym card {i + 1}...")
+                gym_card = page.locator('a.hfpxzc').nth(i)
+                gym_card.hover()
+                gym_card.click()
+                #wait for the gym_info to load
+                page.wait_for_selector('div.m6QErb.DxyBCb.kA9KIf')
+                page.wait_for_selector('img[decoding="async"]')
+                time.sleep(4)
+
+                #Retrieve the stuff
+                try:
+                    name = page.locator('h1.DUwDvf.lfPIob').first
+                    NAME.append(name.inner_text())
+                except:
+                    NAME.append("")
+                    
+                try:    
+                    phone_number_section = page.locator('button[data-item-id^="phone:"] div.rogA2c ').filter(
+                        has=page.locator('div.HMy2Jf')
+                    ).filter(
+                        has=page.locator('div.gSkmPd.fontBodySmall.CuiGbf.DshQNd')
+                    )
+                    phone_number = phone_number_section.locator('div.Io6YTe.fontBodyMedium.kR99db.fdkmkc')
+                    PHONE_NUMBER.append(phone_number.inner_text())
+                except:
+                    PHONE_NUMBER.append("")
+                
+                try:
+                    address_element = page.locator('div.Io6YTe.fontBodyMedium.kR99db.fdkmkc ').first
+                    ADDRESS.append(address_element.inner_text())
+                except:
+                    ADDRESS.append("")
+
+                try:
+                    website_element = page.locator('a[aria-label^="Website:"] div.AeaXub div.rogA2c.ITvuef div.Io6YTe.fontBodyMedium.kR99db.fdkmkc ')
+                    WEBSITE.append(website_element.inner_text())
+                except:
+                    WEBSITE.append("")
+
+                try:
+                    rating_element = page.locator('div.F7nice span[aria-hidden="true"]')
+                    RATING.append(rating_element.inner_text())
+                except:
+                    RATING.append("")
+
+                #move to the next card
+                gym_card_ = page.locator('a.hfpxzc').nth(i+1)
+                gym_card_.hover()
+                page.mouse.wheel(0, 1000)
+
+                i+=1
             except:
-                WEBSITE.append(None)
-
-            rating_element = page.locator('div.F7nice span[aria-hidden="true"]')
-            RATING.append(rating_element.inner_text())
-
-            #move to the next card
-            gym_card_ = page.locator('a.hfpxzc').nth(i+1)
-            gym_card_.hover()
-            page.mouse.wheel(0, 1000)
-
-            i+=1
-
+                break
 
 
     data = {
